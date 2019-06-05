@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Blog(models.Model):
@@ -11,4 +11,10 @@ class Blog(models.Model):
         return self.title
     
     def summary(self):
-        return self.body[:100]
+        return self.body[:100] #바디라고 지정한 글 부분을 100개로 제한한다.
+
+    # blog/models.py
+class Comment(models.Model):
+    post = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.CharField(max_length=500)
